@@ -46,7 +46,9 @@ class AlkuaineTesti
             string vastaus = Console.ReadLine().Trim();
 
             int alkuaineIndeksi = Array.IndexOf(alkuaineet, alkuaineNimi);
+            Console.WriteLine($"Alkuaineen indeksi: {alkuaineIndeksi}");
             string alkuaineLyhenne = alkuaineet[alkuaineIndeksi + 1];
+            Console.WriteLine($"Alkuaineen kemiallinen merkki: {alkuaineLyhenne}");
 
             if (vastaus.ToUpper() == alkuaineLyhenne)
             {
