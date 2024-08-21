@@ -10,15 +10,18 @@ class AlkuaineTesti
     {
         while (true)
         {
+            Console.WriteLine();
+            Console.WriteLine("***** Alkuaine Peli - Final boss edition *****");
             Console.WriteLine("Pelaa Alkuaine peliä painamalla (p)");
             Console.WriteLine("Tarkastele tuloksia painamalla (t)");
             Console.WriteLine("Lopeta ohjelma painamalla (q)");
+            Console.WriteLine("----------------------------------------------");
 
             string? valinta = Console.ReadLine()?.ToLower();
 
             if (valinta == null)
             {
-                Console.WriteLine("Virheellinen syöte. Yritä uudelleen.");
+                Console.WriteLine("Virheellinen valinta. Yritä uudelleen.");
                 continue;
             }
 
@@ -52,8 +55,8 @@ class AlkuaineTesti
                                         .ToList();
 
         int oikeinMenneet = 0;
-        List<string> oikeatVastaukset = new List<string>();
-        List<string> vaaratVastaukset = new List<string>();
+        List<(string alkuaine, string oikeaLyhenne)> oikeatVastaukset = new List<(string, string)>();
+        List<(string alkuaine, string oikeaLyhenne)> vaaratVastaukset = new List<(string, string)>();
 
         foreach (string alkuaineNimi in kysyttavatAlkuaineet)
         {
@@ -65,13 +68,14 @@ class AlkuaineTesti
                 if (alkuaineLyhenne != null && StringComparer.OrdinalIgnoreCase.Compare(vastaus, alkuaineLyhenne) == 0)
                 {
                     oikeinMenneet++;
-                    oikeatVastaukset.Add(alkuaineNimi);
+                    oikeatVastaukset.Add((alkuaineNimi, alkuaineLyhenne)); // Tallenna oikea vastaus
                 }
                 else
                 {
-                    if (!string.IsNullOrEmpty(alkuaineNimi))
+                    // Tarkistetaan, että alkuaineLyhenne ei ole null ennen lisäämistä listalle
+                    if (alkuaineLyhenne != null)
                     {
-                        vaaratVastaukset.Add(alkuaineNimi);
+                        vaaratVastaukset.Add((alkuaineNimi, alkuaineLyhenne));
                     }
                 }
             }
@@ -86,18 +90,18 @@ class AlkuaineTesti
         if (oikeatVastaukset.Count > 0)
         {
             Console.WriteLine("Oikeat vastaukset:");
-            foreach (string alkuaine in oikeatVastaukset)
+            foreach (var (alkuaine, oikeaLyhenne) in oikeatVastaukset)
             {
-                Console.WriteLine($"- {alkuaine}");
+                Console.WriteLine($"- {alkuaine} ({oikeaLyhenne})");
             }
         }
 
         if (vaaratVastaukset.Count > 0)
         {
             Console.WriteLine("Väärät vastaukset:");
-            foreach (string alkuaine in vaaratVastaukset)
+            foreach (var (alkuaine, oikeaLyhenne) in vaaratVastaukset)
             {
-                Console.WriteLine($"- {alkuaine}");
+                Console.WriteLine($"- {alkuaine} ({oikeaLyhenne})");
             }
         }
 
@@ -153,6 +157,7 @@ class AlkuaineTesti
     static void TarkasteleTuloksia()
     {
         List<int> kaikkiTulokset = new List<int>();
+        int? viimeisinTulos = null;
 
         foreach (string hakemisto in Directory.GetDirectories("."))
         {
@@ -161,9 +166,10 @@ class AlkuaineTesti
             {
                 string json = File.ReadAllText(tiedostoPolku);
                 List<int>? tulokset = JsonConvert.DeserializeObject<List<int>>(json);
-                if (tulokset != null)
+                if (tulokset != null && tulokset.Count > 0)
                 {
                     kaikkiTulokset.AddRange(tulokset);
+                    viimeisinTulos = tulokset.Last(); // Viimeisin tulos
                 }
             }
         }
@@ -174,6 +180,7 @@ class AlkuaineTesti
             Console.WriteLine($"Tulosten keskiarvo: {keskiarvo:F2} / 5 ({keskiarvo / 5 * 100:F2}%)");
             Console.WriteLine($"Paras tulos: {kaikkiTulokset.Max()} / 5");
             Console.WriteLine($"Huonoin tulos: {kaikkiTulokset.Min()} / 5");
+            Console.WriteLine($"Viimeisin tulos: {viimeisinTulos} / 5");
         }
         else
         {
