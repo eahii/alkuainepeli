@@ -41,7 +41,7 @@ class AlkuaineTesti
         foreach (string alkuaine in kysyttavatAlkuaineet)
         {
             Console.WriteLine($"Mikä on alkuaineen {alkuaine} kemiallinen merkki?");
-            string vastaus = Console.ReadLine()
+            string vastaus = Console.ReadLine().Trim();
 
             if (vastaus.Equals(alkuaineet[Array.IndexOf(alkuaineet, alkuaine) + 1], StringComparison.OrdinalIgnoreCase))
             {
