@@ -50,7 +50,7 @@ class AlkuaineTesti
             string alkuaineLyhenne = alkuaineet[alkuaineIndeksi + 1];
             Console.WriteLine($"Alkuaineen kemiallinen merkki: {alkuaineLyhenne}");
 
-            if (vastaus.ToUpper() == alkuaineLyhenne)
+            if (StringComparer.OrdinalIgnoreCase.Compare(vastaus, alkuaineLyhenne) == 0)
             {
                 oikeinMenneet++;
                 oikeatVastaukset.Add(alkuaineNimi);
