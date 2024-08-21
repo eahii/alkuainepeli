@@ -15,3 +15,4 @@ C:\Users\juuso\my projects\testialkuaine\AlkuaineTesti\obj\Debug\net8.0\refint\A
 C:\Users\juuso\my projects\testialkuaine\AlkuaineTesti\obj\Debug\net8.0\AlkuaineTesti.pdb
 C:\Users\juuso\my projects\testialkuaine\AlkuaineTesti\obj\Debug\net8.0\AlkuaineTesti.genruntimeconfig.cache
 C:\Users\juuso\my projects\testialkuaine\AlkuaineTesti\obj\Debug\net8.0\ref\AlkuaineTesti.dll
+C:\Users\juuso\my projects\testialkuaine\AlkuaineTesti\obj\Debug\net8.0\AlkuaineTesti.sourcelink.json

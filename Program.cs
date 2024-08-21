@@ -35,21 +35,50 @@ class AlkuaineTesti
     static void PelaaTestia()
     {
         string[] alkuaineet = File.ReadAllLines("alkuaineet.txt");
-        List<string> kysyttavatAlkuaineet = alkuaineet.Take(20).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
+        List<string> kysyttavatAlkuaineet = alkuaineet.Where((_, i) => i % 2 == 0).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
         int oikeinMenneet = 0;
+        List<string> oikeatVastaukset = new List<string>();
+        List<string> vaaratVastaukset = new List<string>();
 
-        foreach (string alkuaine in kysyttavatAlkuaineet)
+        foreach (string alkuaineNimi in kysyttavatAlkuaineet)
         {
-            Console.WriteLine($"Mikä on alkuaineen {alkuaine} kemiallinen merkki?");
+            Console.WriteLine($"Mikä on alkuaineen {alkuaineNimi} kemiallinen merkki?");
             string vastaus = Console.ReadLine().Trim();
 
-            if (vastaus.Equals(alkuaineet[Array.IndexOf(alkuaineet, alkuaine) + 1], StringComparison.OrdinalIgnoreCase))
+            int alkuaineIndeksi = Array.IndexOf(alkuaineet, alkuaineNimi);
+            string alkuaineLyhenne = alkuaineet[alkuaineIndeksi + 1];
+
+            if (vastaus.ToUpper() == alkuaineLyhenne)
             {
                 oikeinMenneet++;
+                oikeatVastaukset.Add(alkuaineNimi);
+            }
+            else
+            {
+                vaaratVastaukset.Add(alkuaineNimi);
             }
         }
 
         Console.WriteLine($"Sait {oikeinMenneet} oikein ja {5 - oikeinMenneet} väärin.");
+
+        if (oikeatVastaukset.Count > 0)
+        {
+            Console.WriteLine("Oikeat vastaukset:");
+            foreach (string alkuaine in oikeatVastaukset)
+            {
+                Console.WriteLine($"- {alkuaine}");
+            }
+        }
+
+        if (vaaratVastaukset.Count > 0)
+        {
+            Console.WriteLine("Väärät vastaukset:");
+            foreach (string alkuaine in vaaratVastaukset)
+            {
+                Console.WriteLine($"- {alkuaine}");
+            }
+        }
+
         TallennaTulos(oikeinMenneet);
     }
 
