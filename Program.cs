@@ -35,6 +35,14 @@ class AlkuaineTesti
     static void PelaaTestia()
     {
         string[] alkuaineet = File.ReadAllLines("alkuaineet.txt");
+        Dictionary<string, string> alkuaineTiedot = new Dictionary<string, string>();
+
+        // Luodaan Dictionary-tietorakenne alkuaineiden tiedoista
+        for (int i = 0; i < alkuaineet.Length; i += 2)
+        {
+            alkuaineTiedot[alkuaineet[i]] = alkuaineet[i + 1];
+        }
+
         List<string> kysyttavatAlkuaineet = alkuaineet.Where((_, i) => i % 2 == 0).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
         int oikeinMenneet = 0;
         List<string> oikeatVastaukset = new List<string>();
@@ -45,19 +53,21 @@ class AlkuaineTesti
             Console.WriteLine($"Mikä on alkuaineen {alkuaineNimi} kemiallinen merkki?");
             string vastaus = Console.ReadLine().Trim();
 
-            int alkuaineIndeksi = Array.IndexOf(alkuaineet, alkuaineNimi);
-            Console.WriteLine($"Alkuaineen indeksi: {alkuaineIndeksi}");
-            string alkuaineLyhenne = alkuaineet[alkuaineIndeksi + 1];
-            Console.WriteLine($"Alkuaineen kemiallinen merkki: {alkuaineLyhenne}");
-
-            if (StringComparer.OrdinalIgnoreCase.Compare(vastaus, alkuaineLyhenne) == 0)
+            if (alkuaineTiedot.TryGetValue(alkuaineNimi, out string alkuaineLyhenne))
             {
-                oikeinMenneet++;
-                oikeatVastaukset.Add(alkuaineNimi);
+                if (StringComparer.OrdinalIgnoreCase.Compare(vastaus, alkuaineLyhenne) == 0)
+                {
+                    oikeinMenneet++;
+                    oikeatVastaukset.Add(alkuaineNimi);
+                }
+                else
+                {
+                    vaaratVastaukset.Add(alkuaineNimi);
+                }
             }
             else
             {
-                vaaratVastaukset.Add(alkuaineNimi);
+                Console.WriteLine($"Alkuainetta {alkuaineNimi} ei löytynyt tiedoista.");
             }
         }
 
