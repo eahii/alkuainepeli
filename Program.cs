@@ -10,12 +10,21 @@ class AlkuaineTesti
     {
         while (true)
         {
-            Console.WriteLine("Haluatko pelata (p) vai tarkastella tuloksia (t)? (q lopettaa)");
-            string valinta = Console.ReadLine().ToLower();
+            Console.WriteLine("Pelaa Alkuaine peliä painamalla (p)");
+            Console.WriteLine("Tarkastele tuloksia painamalla (t)");
+            Console.WriteLine("Lopeta ohjelma painamalla (q)");
+
+            string? valinta = Console.ReadLine()?.ToLower();
+
+            if (valinta == null)
+            {
+                Console.WriteLine("Virheellinen syöte. Yritä uudelleen.");
+                continue;
+            }
 
             if (valinta == "p")
             {
-                PelaaTestia();
+                PelaaPelia();
             }
             else if (valinta == "t")
             {
@@ -32,7 +41,7 @@ class AlkuaineTesti
         }
     }
 
-    static void PelaaTestia()
+    static void PelaaPelia()
     {
         var alkuaineTiedot = LueAlkuaineTiedot("alkuaineet.txt");
 
@@ -49,18 +58,21 @@ class AlkuaineTesti
         foreach (string alkuaineNimi in kysyttavatAlkuaineet)
         {
             Console.WriteLine($"Mikä on alkuaineen {alkuaineNimi} kemiallinen merkki?");
-            string vastaus = Console.ReadLine().Trim();
+            string vastaus = Console.ReadLine()?.Trim() ?? string.Empty;
 
-            if (alkuaineTiedot.TryGetValue(alkuaineNimi, out string alkuaineLyhenne))
+            if (alkuaineTiedot != null && alkuaineTiedot.TryGetValue(alkuaineNimi, out string? alkuaineLyhenne))
             {
-                if (StringComparer.OrdinalIgnoreCase.Compare(vastaus, alkuaineLyhenne) == 0)
+                if (alkuaineLyhenne != null && StringComparer.OrdinalIgnoreCase.Compare(vastaus, alkuaineLyhenne) == 0)
                 {
                     oikeinMenneet++;
                     oikeatVastaukset.Add(alkuaineNimi);
                 }
                 else
                 {
-                    vaaratVastaukset.Add(alkuaineNimi);
+                    if (!string.IsNullOrEmpty(alkuaineNimi))
+                    {
+                        vaaratVastaukset.Add(alkuaineNimi);
+                    }
                 }
             }
             else
@@ -96,7 +108,12 @@ class AlkuaineTesti
     {
         var alkuaineTiedot = new Dictionary<string, string>();
 
-        // Lukee tiedot Dictionaryyn ja tarkistaa että tiedostossa on oikea parimäärä
+        if (!File.Exists(tiedostoPolku))
+        {
+            Console.WriteLine("Virhe: Tiedostoa ei löydy.");
+            return new Dictionary<string, string>(); // Palauttaa tyhjän sanakirjan.
+        }
+
         var rivit = File.ReadLines(tiedostoPolku).ToList();
 
         if (rivit.Count % 2 != 0)
@@ -124,7 +141,7 @@ class AlkuaineTesti
         if (File.Exists(tiedostoPolku))
         {
             string json = File.ReadAllText(tiedostoPolku);
-            tulokset = JsonConvert.DeserializeObject<List<int>>(json);
+            tulokset = JsonConvert.DeserializeObject<List<int>>(json) ?? new List<int>(); // Lisätty null-coalescing operaatio
         }
 
         tulokset.Add(oikeinMenneet);
@@ -143,8 +160,11 @@ class AlkuaineTesti
             if (File.Exists(tiedostoPolku))
             {
                 string json = File.ReadAllText(tiedostoPolku);
-                List<int> tulokset = JsonConvert.DeserializeObject<List<int>>(json);
-                kaikkiTulokset.AddRange(tulokset);
+                List<int>? tulokset = JsonConvert.DeserializeObject<List<int>>(json);
+                if (tulokset != null)
+                {
+                    kaikkiTulokset.AddRange(tulokset);
+                }
             }
         }
 
