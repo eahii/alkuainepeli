@@ -34,16 +34,14 @@ class AlkuaineTesti
 
     static void PelaaTestia()
     {
-        string[] alkuaineet = File.ReadAllLines("alkuaineet.txt");
-        Dictionary<string, string> alkuaineTiedot = new Dictionary<string, string>();
+        var alkuaineTiedot = LueAlkuaineTiedot("alkuaineet.txt");
 
-        // Luodaan Dictionary-tietorakenne alkuaineiden tiedoista
-        for (int i = 0; i < alkuaineet.Length; i += 2)
-        {
-            alkuaineTiedot[alkuaineet[i]] = alkuaineet[i + 1];
-        }
+        // Satunnaisesti valitut 5 kysymystä kaikista alkuaineista
+        List<string> kysyttavatAlkuaineet = alkuaineTiedot.Keys
+                                        .OrderBy(x => Guid.NewGuid())
+                                        .Take(5)
+                                        .ToList();
 
-        List<string> kysyttavatAlkuaineet = alkuaineet.Where((_, i) => i % 2 == 0).OrderBy(x => Guid.NewGuid()).Take(5).ToList();
         int oikeinMenneet = 0;
         List<string> oikeatVastaukset = new List<string>();
         List<string> vaaratVastaukset = new List<string>();
@@ -94,6 +92,27 @@ class AlkuaineTesti
         TallennaTulos(oikeinMenneet);
     }
 
+    static Dictionary<string, string> LueAlkuaineTiedot(string tiedostoPolku)
+    {
+        var alkuaineTiedot = new Dictionary<string, string>();
+
+        // Lukee tiedot Dictionaryyn ja tarkistaa että tiedostossa on oikea parimäärä
+        var rivit = File.ReadLines(tiedostoPolku).ToList();
+
+        if (rivit.Count % 2 != 0)
+        {
+            Console.WriteLine("Virhe: Tiedostossa ei ole parillista määrää rivejä.");
+            Environment.Exit(1);
+        }
+
+        for (int i = 0; i < rivit.Count; i += 2)
+        {
+            alkuaineTiedot[rivit[i]] = rivit[i + 1];
+        }
+
+        return alkuaineTiedot;
+    }
+
     static void TallennaTulos(int oikeinMenneet)
     {
         string hakemisto = DateTime.Now.ToString("ddMMyyyy");
@@ -110,7 +129,7 @@ class AlkuaineTesti
 
         tulokset.Add(oikeinMenneet);
 
-        string uusiJson = JsonConvert.SerializeObject(tulokset);
+        string uusiJson = JsonConvert.SerializeObject(tulokset, Formatting.Indented);
         File.WriteAllText(tiedostoPolku, uusiJson);
     }
 
@@ -133,6 +152,8 @@ class AlkuaineTesti
         {
             double keskiarvo = kaikkiTulokset.Average();
             Console.WriteLine($"Tulosten keskiarvo: {keskiarvo:F2} / 5 ({keskiarvo / 5 * 100:F2}%)");
+            Console.WriteLine($"Paras tulos: {kaikkiTulokset.Max()} / 5");
+            Console.WriteLine($"Huonoin tulos: {kaikkiTulokset.Min()} / 5");
         }
         else
         {
