@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\juuso\\AlkuainePeli\\alkuainepeli\\AlkuaineTesti.csproj": {}
+    "C:\\Users\\juuso\\Alkuainepeli-ai\\alkuainepeli\\AlkuaineTesti.csproj": {}
   },
   "projects": {
-    "C:\\Users\\juuso\\AlkuainePeli\\alkuainepeli\\AlkuaineTesti.csproj": {
+    "C:\\Users\\juuso\\Alkuainepeli-ai\\alkuainepeli\\AlkuaineTesti.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\juuso\\AlkuainePeli\\alkuainepeli\\AlkuaineTesti.csproj",
+        "projectUniqueName": "C:\\Users\\juuso\\Alkuainepeli-ai\\alkuainepeli\\AlkuaineTesti.csproj",
         "projectName": "AlkuaineTesti",
-        "projectPath": "C:\\Users\\juuso\\AlkuainePeli\\alkuainepeli\\AlkuaineTesti.csproj",
+        "projectPath": "C:\\Users\\juuso\\Alkuainepeli-ai\\alkuainepeli\\AlkuaineTesti.csproj",
         "packagesPath": "C:\\Users\\juuso\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\juuso\\AlkuainePeli\\alkuainepeli\\obj\\",
+        "outputPath": "C:\\Users\\juuso\\Alkuainepeli-ai\\alkuainepeli\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\juuso\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\juuso\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

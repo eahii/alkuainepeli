@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AlkuaineTesti")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1833cfd8ce45337bdc04fd1a845887c2f68bb17d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c8c5d2f8a9131d27d8063538aa39bac0fb718efc")]
 [assembly: System.Reflection.AssemblyProductAttribute("AlkuaineTesti")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AlkuaineTesti")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
